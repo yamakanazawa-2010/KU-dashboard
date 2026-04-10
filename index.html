@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>短期海外研修プログラム 総合評価レポート｜金沢大学 国際日本研究教育センター</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F4F0;--surface:#FFFFFF;--surface2:#F0EFE9;--surface3:#E8E6E0;
+  --border:rgba(0,0,0,0.09);--border-md:rgba(0,0,0,0.15);--border-strong:rgba(0,0,0,0.22);
+  --text:#1A1916;--text-2:#5A5854;--text-3:#9A9894;
+  --blue:#185FA5;--blue-l:#E6F1FB;--blue-m:#378ADD;
+  --amber:#7A4500;--amber-l:#FDF0DC;--amber-m:#C07010;
+  --green:#0A5C42;--green-l:#DFF2EA;--green-m:#1A9467;
+  --red:#982020;--red-l:#FDEAEA;--red-m:#D94040;
+  --teal:#0A5260;--teal-l:#DCF0F4;--teal-m:#1A8090;
+  --purple:#3A2878;--purple-l:#EAE6FA;--purple-m:#6654C8;
+  --r:10px;--rs:6px;
+  --font:'Noto Sans JP',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* LOCK */
+#lock{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.lock-box{background:var(--surface);border:0.5px solid var(--border-strong);border-radius:var(--r);padding:2.5rem 2rem;width:340px;text-align:center}
+.lock-icon{font-size:32px;margin-bottom:1rem}
+.lock-box h2{font-size:16px;font-weight:500;margin-bottom:4px}
+.lock-box p{font-size:12px;color:var(--text-3);font-family:var(--mono);margin-bottom:1.5rem}
+.lock-box input{width:100%;border:1px solid var(--border-strong);border-radius:var(--rs);padding:10px 14px;font-size:14px;font-family:var(--mono);background:var(--surface2);color:var(--text);outline:none;text-align:center;letter-spacing:.15em}
+.lock-box input:focus{border-color:var(--blue-m);box-shadow:0 0 0 3px rgba(55,138,221,.15)}
+.lock-box button{margin-top:12px;width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-family:var(--font);cursor:pointer;font-weight:500}
+.lock-box button:hover{background:var(--blue-m)}
+.lock-err{font-size:12px;color:var(--red);margin-top:10px;min-height:16px}
+.lock-hint{font-size:11px;color:var(--text-3);margin-top:14px;font-family:var(--mono)}
+
+/* LAYOUT */
+#main{display:none}
+.wrap{max-width:1120px;margin:0 auto;padding:2rem 1.5rem 4rem}
+
+/* HEADER */
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem;gap:1rem}
+.hdr h1{font-size:20px;font-weight:700;letter-spacing:-0.01em}
+.hdr p{font-size:12px;color:var(--text-3);margin-top:3px;font-family:var(--mono)}
+.hdr-r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.badges{display:flex;gap:6px}
+.badge{font-size:11px;font-family:var(--mono);padding:3px 10px;border-radius:100px;font-weight:500}
+.sp{background:var(--blue-l);color:var(--blue)}.su{background:var(--amber-l);color:var(--amber)}
+.lock-btn{font-size:11px;font-family:var(--mono);color:var(--text-3);background:none;border:0.5px solid var(--border-strong);border-radius:100px;padding:3px 10px;cursor:pointer}
+.lock-btn:hover{color:var(--text-2)}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem}
+.mc{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:.9rem 1rem}
+.ml{font-size:10px;color:var(--text-3);font-family:var(--mono);margin-bottom:5px;line-height:1.3}
+.mv{font-size:22px;font-weight:700;letter-spacing:-0.02em}
+.mv.blue{color:var(--blue)}.mv.amber{color:var(--amber)}.mv.green{color:var(--green)}.mv.teal{color:var(--teal)}
+.ms{font-size:11px;color:var(--text-3);margin-top:3px}
+
+/* TABS */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.tab{font-family:var(--font);font-size:13px;padding:9px 16px;background:none;border:none;cursor:pointer;color:var(--text-3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.tab:hover{color:var(--text-2)}.tab.on{color:var(--text);border-bottom-color:var(--blue-m);font-weight:500}
+
+/* CARDS */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:1.1rem 1.25rem}
+.card+.card,.card+.sec{margin-top:10px}
+
+/* SECTION */
+.sec-lbl{font-size:10px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px;margin-top:1.25rem}
+.sec-lbl:first-child,.sec+.sec-lbl{margin-top:0}
+.sec-h{font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;margin-top:1.25rem}
+.sec-h:first-child{margin-top:0}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* PROGRAM BARS */
+.pb{padding:8px 0;border-bottom:0.5px solid var(--border)}
+.pb:last-child{border-bottom:none}
+.pb-hdr{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.pn{font-size:13px;color:var(--text)}
+.pbadge{font-size:10px;font-family:var(--mono);padding:1px 7px;border-radius:100px}
+.pbadge.sp{background:var(--blue-l);color:var(--blue)}.pbadge.su{background:var(--amber-l);color:var(--amber)}
+.sr{display:flex;align-items:center;gap:6px}
+.sl{font-size:11px;color:var(--text-3);flex:0 0 44px;font-family:var(--mono)}
+.bt{flex:1;background:var(--surface2);border-radius:3px;height:8px;overflow:hidden}
+.bf{height:8px;border-radius:3px}
+.sn{font-size:12px;font-weight:500;min-width:28px;text-align:right;font-family:var(--mono)}
+
+/* LEGEND */
+.legend{display:flex;gap:14px;font-size:11px;color:var(--text-3);margin-bottom:10px;flex-wrap:wrap;font-family:var(--mono)}
+.ld{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* QUALITATIVE */
+.qi{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-2);padding:6px 0;border-bottom:0.5px solid var(--border);line-height:1.65}
+.qi:last-child{border-bottom:none}
+.qd{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.chip{display:inline-block;font-size:11px;padding:3px 9px;border-radius:100px;margin:3px 3px 3px 0}
+.chip-g{background:var(--green-l);color:var(--green)}
+.chip-b{background:var(--blue-l);color:var(--blue)}
+.chip-a{background:var(--amber-l);color:var(--amber)}
+.chip-r{background:var(--red-l);color:var(--red)}
+.chip-t{background:var(--teal-l);color:var(--teal)}
+
+/* MATRIX TABLE */
+.mt{width:100%;border-collapse:collapse;font-size:12px}
+.mt th{font-weight:400;color:var(--text-3);font-family:var(--mono);font-size:10px;padding:0 0 6px;text-align:center}
+.mt th:first-child{text-align:left}
+.mt td{padding:6px 2px;border-top:0.5px solid var(--border);text-align:center;color:var(--text-2)}
+.mt td:first-child{text-align:left;color:var(--text);font-size:12px}
+
+/* QUOTE BOX */
+.qbox{background:var(--surface2);border-left:3px solid var(--blue-m);border-radius:0 var(--rs) var(--rs) 0;padding:9px 12px;margin:6px 0;font-size:12px;color:var(--text-2);line-height:1.7}
+.qbox.green{border-left-color:var(--green-m)}
+.qbox.amber{border-left-color:var(--amber-m)}
+.qbox.red{border-left-color:var(--red-m)}
+.qbox.teal{border-left-color:var(--teal-m)}
+
+/* PROG SELECT */
+.prog-sel{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem}
+.ps-btn{font-size:12px;font-family:var(--font);padding:5px 12px;border:0.5px solid var(--border-md);border-radius:100px;background:var(--surface);cursor:pointer;color:var(--text-2);transition:all .15s}
+.ps-btn:hover,.ps-btn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.ps-btn.su-btn:hover,.ps-btn.su-btn.on{background:var(--amber);border-color:var(--amber)}
+.prog-detail{display:none}.prog-detail.show{display:block}
+
+hr{border:none;border-top:0.5px solid var(--border);margin:1.25rem 0}
+.cw{position:relative;width:100%}
+.note{font-size:10px;color:var(--text-3);font-family:var(--mono);margin-top:5px;line-height:1.5}
+
+@media(max-width:800px){.metrics{grid-template-columns:repeat(3,1fr)}.g2,.g3{grid-template-columns:1fr}}
+@media(max-width:500px){.metrics{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOCK -->
+<div id="lock">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <h2>内部資料　アクセス制限</h2>
+    <p>金沢大学 国際日本研究教育センター</p>
+    <input type="password" id="pw" placeholder="パスワードを入力" autocomplete="off">
+    <button onclick="auth()">ログイン</button>
+    <div class="lock-err" id="perr"></div>
+    <div class="lock-hint">担当者からパスワードをお受け取りください</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+<div class="wrap">
+
+<div class="hdr">
+  <div>
+    <h1>短期海外研修プログラム 総合評価レポート</h1>
+    <p>金沢大学 国際日本研究教育センター ／ 2025夏・2026春 研修後アンケート ／ 内部資料</p>
+  </div>
+  <div class="hdr-r">
+    <div class="badges"><span class="badge sp">2026春</span><span class="badge su">2025夏</span></div>
+    <button class="lock-btn" onclick="lockout()">🔒 ロック</button>
+  </div>
+</div>
+
+<!-- SUMMARY METRICS -->
+<div class="metrics">
+  <div class="mc"><div class="ml">総プログラム数</div><div class="mv">14</div><div class="ms">春8 ／ 夏6</div></div>
+  <div class="mc"><div class="ml">総回答者数</div><div class="mv">130名</div><div class="ms">春52 ／ 夏78</div></div>
+  <div class="mc"><div class="ml">春 全体満足度（平均）</div><div class="mv blue">4.62</div><div class="ms">5段階評価</div></div>
+  <div class="mc"><div class="ml">夏 全体満足度（平均）</div><div class="mv amber">4.58</div><div class="ms">5段階評価</div></div>
+  <div class="mc"><div class="ml">全体平均（春夏合計）</div><div class="mv green">4.60</div><div class="ms">高満足度維持</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" onclick="tab('overview')">比較一覧</button>
+  <button class="tab" onclick="tab('spring')">2026春 詳細</button>
+  <button class="tab" onclick="tab('summer')">2025夏 詳細</button>
+  <button class="tab" onclick="tab('qualitative')">質的分析</button>
+  <button class="tab" onclick="tab('issues')">課題・提言</button>
+</div>
+
+<!-- ══ TAB: OVERVIEW ══ -->
+<div id="t-overview">
+  <div class="g2">
+    <div>
+      <div class="sec-lbl">スコア比較（5段階）</div>
+      <div class="legend">
+        <span><span class="ld" style="background:#378ADD"></span>全体</span>
+        <span><span class="ld" style="background:#1A9467"></span>学習</span>
+        <span><span class="ld" style="background:#C07010"></span>サポート</span>
+      </div>
+      <div class="sec-lbl" style="margin-top:0">2026春</div>
+      <div class="card"><div id="sp-bars"></div></div>
+      <div class="sec-lbl">2025夏</div>
+      <div class="card"><div id="su-bars"></div></div>
+    </div>
+    <div>
+      <div class="sec-lbl">レーダーチャート（プログラム比較）</div>
+      <div class="card"><div class="cw" style="height:310px"><canvas id="radarChart"></canvas></div></div>
+      <div class="sec-lbl">全体×サポート 散布図</div>
+      <div class="card"><div class="cw" style="height:220px"><canvas id="scatterChart"></canvas></div>
+        <div class="note">横軸：全体満足度 ／ 縦軸：サポート満足度 ／ ●春 ■夏</div>
+        <div class="note">※台湾FS夏のサポートは設問7-1〜7-3（事前研修・引率・事務）の3項目平均。ホテル・現地大学対応は除く。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB: SPRING ══ -->
+<div id="t-spring" style="display:none">
+  <div class="g2">
+    <div>
+      <div class="sec-lbl" style="margin-top:0">満足度スコア一覧</div>
+      <div class="card"><div id="sp-detail-bars"></div></div>
+      <div class="sec-lbl">回答者数・回収状況</div>
+      <div class="card"><div id="sp-resp"></div></div>
+    </div>
+    <div>
+      <div class="sec-lbl" style="margin-top:0">満足度分布（全体）</div>
+      <div class="card" style="padding:.75rem 1rem">
+        <div class="cw" style="height:220px"><canvas id="spDistChart"></canvas></div>
+      </div>
+      <div class="sec-lbl">参加動機（複数回答・主要項目）</div>
+      <div class="card">
+        <div class="cw" style="height:180px"><canvas id="spReasonChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec-lbl">研修で得られた成果（複数回答・春全体）</div>
+  <div class="card"><div class="cw" style="height:200px"><canvas id="spOutcomeChart"></canvas></div></div>
+</div>
+
+<!-- ══ TAB: SUMMER ══ -->
+<div id="t-summer" style="display:none">
+  <div class="g2">
+    <div>
+      <div class="sec-lbl" style="margin-top:0">満足度スコア一覧</div>
+      <div class="card"><div id="su-detail-bars"></div></div>
+      <div class="sec-lbl">プログラム特性</div>
+      <div class="card">
+        <table class="mt">
+          <tr><th style="width:36%">プログラム</th><th>引率</th><th>奨学金</th><th>地域</th><th>n</th></tr>
+          <tr><td>トルコ文化交流</td><td>部分</td><td style="color:var(--green-m)">✓</td><td>中東欧</td><td>28</td></tr>
+          <tr><td>ハサヌディン（インドネシア）</td><td>現地大学</td><td style="color:var(--green-m)">✓</td><td>東南アジア</td><td>7</td></tr>
+          <tr><td>ファーストステップ in タイ</td><td style="color:var(--green-m)">充実</td><td style="color:var(--green-m)">✓</td><td>東南アジア</td><td>9</td></tr>
+          <tr><td>フィンランドエコパーク</td><td>現地のみ</td><td style="color:var(--green-m)">✓</td><td>北欧</td><td>5</td></tr>
+          <tr><td>英語研修4カ国</td><td>旅行会社</td><td style="color:var(--red-m)">なし</td><td>欧米・亜</td><td>19</td></tr>
+          <tr><td style="color:var(--teal);font-weight:500">台湾FS（NYCU）</td><td style="color:var(--green-m)">充実</td><td style="color:var(--green-m)">✓</td><td>東アジア</td><td>10</td></tr>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="sec-lbl" style="margin-top:0">夏プログラム 満足度分布</div>
+      <div class="card"><div class="cw" style="height:220px"><canvas id="suDistChart"></canvas></div></div>
+      <div class="sec-lbl">台湾FS サポート項目別内訳</div>
+      <div class="card">
+        <div id="tw-detail-bars"></div>
+        <div class="note" style="margin-top:8px">※比較用サポートスコア(4.10)は7-1〜7-3の平均。ホテル(3.60)・現地大学(4.80)は参考値。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB: QUALITATIVE ══ -->
+<div id="t-qualitative" style="display:none">
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card">
+      <div class="sec-h" style="margin-top:0">🌟 高評価プログラムの共通要因</div>
+      <span class="chip chip-g">引率教員・バディの充実</span>
+      <span class="chip chip-g">現地学生との交流機会</span>
+      <span class="chip chip-g">学習と自由時間のバランス</span>
+      <span class="chip chip-g">費用対効果の高さ</span>
+      <span class="chip chip-g">体験型カリキュラム</span>
+      <span class="chip chip-g">安心できるサポート体制</span>
+      <div style="margin-top:10px;font-size:12px;color:var(--text-2);line-height:1.8">
+        タイ・台湾FS・釜山・フランス・米国ユネスコで「大変満足」が集中。共通するのは<strong>引率者の存在と現地学生との質の高い交流機会</strong>。特にタイのバディ制度、台湾の「たけのこ」による伴走型サポートが最高評価に直結した。
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-h" style="margin-top:0">📊 重要語・出現傾向（自由記述）</div>
+      <div class="cw" style="height:190px"><canvas id="wordChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Program-by-program selector -->
+  <div class="sec-lbl">プログラム別　自由記述詳細</div>
+  <div class="prog-sel" id="prog-sel"></div>
+  <div id="prog-details"></div>
+</div>
+
+<!-- ══ TAB: ISSUES ══ -->
+<div id="t-issues" style="display:none">
+  <div class="g2">
+    <div>
+      <div class="sec-lbl" style="margin-top:0">春・夏 共通課題（優先度順）</div>
+      <div class="card">
+        <div class="qi"><div class="qd" style="background:var(--red-m)"></div><div><strong>事前情報提供の遅れ・不足</strong>：日程・費用明細・生活情報（洗濯・現金・持ち物等）が直前まで未確定。春フィンランド、夏全般、台湾で集中的に指摘。特に「費用明細が前日着」は改善必須。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--red-m)"></div><div><strong>対面事前研修・顔合わせの欠如</strong>：参加者同士が現地で初対面になるケースが多く、不安・連携の遅れにつながっている。オンデマンド研修だけでは不十分との声が多数。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--red-m)"></div><div><strong>現地スケジュールの不透明さ</strong>：当日まで予定が確定しないケースが繰り返し指摘。特に現地コーディネーター任せになりがちな文化交流型プログラムに集中。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--amber-m)"></div><div><strong>奨学金手続きの煩雑さ</strong>：台湾FS・タイ・英語研修で共通。書類提出フローが不明確で、確認メール不在・手配遅延への不満が多い。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--amber-m)"></div><div><strong>日本人比率の高さ・語学環境の期待ズレ</strong>：英語研修（豪・加）、NZ春で指摘。「日本人クラス」「日本語ばかり話してしまう」環境への失望。多国籍クラス設定の交渉が必要。</div></div>
+      </div>
+
+      <div class="sec-lbl">春 固有課題</div>
+      <div class="card">
+        <div class="qi"><div class="qd" style="background:var(--blue-m)"></div><div>フィンランド春：費用明細が前日着。ホテル・交通の個人手配が初海外者には過大な負担。英語のみの講義が語学力不足者に不親切。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--blue-m)"></div><div>UPM・釜山：現地スケジュールの急な変更・直前告知。参加者の予定調整が困難になっている。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--blue-m)"></div><div>フランス：大学側と現地サポーターの間の情報共有に齟齬。参加者への影響は軽微だったが体制改善が必要。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--blue-m)"></div><div>NZ春：日本人参加者が多く英語環境が限定的。授業内容が「日本でもできる」レベルとの指摘。</div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-lbl" style="margin-top:0">夏 固有課題</div>
+      <div class="card">
+        <div class="qi"><div class="qd" style="background:var(--amber-m)"></div><div>トルコ：30名規模の運営体制が限界。体調不良者続出・救急セット不備・引率サポートの属人化（原田さん一人への過剰依存）。人数削減と引率体制の再設計が急務。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--amber-m)"></div><div>フィンランド夏：「自然体験」メインというプログラム性格の事前説明が不十分。参加者の期待とのミスマッチが発生。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--amber-m)"></div><div>英語研修：費用100万円超のプログラムに奨学金なし。外部奨学金の案内整備が必要。ホストファミリー情報の精度改善も求められる。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--amber-m)"></div><div>ハサヌディン：申込後のプログラム内容・日程変更が発生。大学間の事前調整プロセスの強化を。</div></div>
+        <div class="qi"><div class="qd" style="background:var(--teal)"></div><div>台湾FS：高評価ながら、ホテル設備の老朽化・大学事務のメール返信遅延・奨学金案内の複雑さが次年度の改善点。</div></div>
+      </div>
+
+      <div class="sec-lbl">次年度向け提言（優先度順）</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--text-2);line-height:2.1">
+          <div>① <strong>対面事前研修の必須化</strong>：全プログラムで出発2週間以上前に実施。スケジュール・費用・持ち物・生活情報を一括共有。</div>
+          <div>② <strong>費用・日程の早期確定と明示</strong>：遅くとも出発4週間前に書面で確定通知。</div>
+          <div>③ <strong>奨学金手続きの一本化・簡略化</strong>：フローチャートと受領確認メールの整備。</div>
+          <div>④ <strong>トルコ：人数削減と引率体制の再設計</strong>：20名以下に絞り、有償引率を確保。</div>
+          <div>⑤ <strong>英語研修：多国籍クラス環境の交渉</strong>：日本人上限比率の設定を旅行会社・大学に要求。</div>
+          <div>⑥ <strong>台湾FS：ホテル改善・現金情報の提供</strong>：次年度に向け宿泊施設の見直しと現地決済情報の明示。</div>
+          <div>⑦ <strong>奨学金なしプログラムへの外部奨学金案内</strong>：利用可能な外部資金リストを整備。</div>
+        </div>
+      </div>
+
+      <div class="sec-lbl">スコア変遷に関する注記</div>
+      <div class="card">
+        <div style="font-size:11px;color:var(--text-2);line-height:1.8">
+          本レポートはすべて<strong>5段階評価（大変満足=5〜不満=1）</strong>で統一集計。台湾FSアンケートのサポートは項目構成が異なるため、共通項目（設問7-1事前研修・7-2引率・7-3事務）の3項目平均を使用。ホテル(3.60)・現地大学対応(4.80)は参考値として別掲。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+</div><!-- /main -->
+
+<script>
+/* ─── AUTH ─── */
+const PW_HASH='b91f776a1cc30c11c36eaa8490f363b157b76befc2b77c8fb85727cab429022c';
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function auth(){
+  const v=document.getElementById('pw').value;
+  if(await sha256(v)===PW_HASH){
+    sessionStorage.setItem('a','1');
+    document.getElementById('lock').style.display='none';
+    document.getElementById('main').style.display='block';
+    init();
+  }else{
+    const e=document.getElementById('perr');e.textContent='パスワードが正しくありません';
+    document.getElementById('pw').value='';setTimeout(()=>e.textContent='',3000);
+  }
+}
+function lockout(){sessionStorage.removeItem('a');document.getElementById('main').style.display='none';document.getElementById('lock').style.display='flex';document.getElementById('pw').value=''}
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')auth()});
+if(sessionStorage.getItem('a')==='1'){document.getElementById('lock').style.display='none';document.getElementById('main').style.display='block'}
+
+/* ─── DATA ─── */
+const sp=[
+  {k:'UPM',       fn:'UPMマレーシア英語研修',         s:'春',n:9,  ov:4.44,lv:4.56,sv:4.33, od:{'大変満足':4,'満足':5},         ld:{'大変満足':5,'満足':4},                sd:{'大変満足':5,'満足':2,'普通':2},
+   imp:['事前に参加者同士が交流できる機会が欲しかった','現地スケジュールの急な変更と直前通知','1日のスケジュールに時間的ゆとりを'],
+   good:['引率・UPMスタッフのサポートが手厚かった','イスラームのラマダン体験など独自の文化体験','費用対効果が高い','英語・マレー語の両方に触れられた'],
+   adv:['出入国審査・検疫・税関は事前に理解しておくこと','英語以外に現地語の知識もあると便利','健康第一で何にでも積極的に挑戦を']},
+  {k:'釜山',      fn:'韓国・釜山研修',                s:'春',n:14, ov:4.57,lv:4.57,sv:4.79, od:{'大変満足':8,'満足':6},         ld:{'大変満足':8,'満足':6},                sd:{'大変満足':11,'満足':3},
+   imp:['名古屋空港へのアクセスが体力的に負担','現地学生との交流時間をもっと増やしてほしい','韓国語学習の時間を増やしてほしい'],
+   good:['引率の南先生・佐藤先生のサポートが充実','学習と自由時間のバランスが最適','費用が安く教育内容が充実','釜山カトリック大学のガイドが好評'],
+   adv:['事前に韓国語の基本を学んでおくと効果的','翻訳アプリを活用すること','現地の生活様式を受け入れる柔軟な姿勢が大切']},
+  {k:'フランス',  fn:'フランス・ユネスコ',             s:'春',n:5,  ov:5.00,lv:4.60,sv:3.80, od:{'大変満足':5},                  ld:{'大変満足':3,'満足':2},                sd:{'大変満足':1,'満足':2,'普通':2},
+   imp:['大学側と現地サポーターの情報共有に齟齬','プログラム内容の事前告知が遅い','ホテル・交通は学生任せで不安だった'],
+   good:['自由度が高く自分のペースで文化体験','パリ以外の地方も含む多様なフランス体験','全体満足度が全プログラム最高タイ'],
+   adv:['海外未経験者や長期留学前のステップとして最適','現地語（フランス語）を学んでいるとより楽しめる','食費が高いので食料の持参を推奨']},
+  {k:'米国',      fn:'米国・ユネスコ',                 s:'春',n:2,  ov:5.00,lv:5.00,sv:4.50, od:{'大変満足':2},                  ld:{'大変満足':2},                         sd:{'大変満足':1,'満足':1},
+   imp:['金沢大学本体サポートは他と比べ少ない印象','英語の要求水準が高く最初はハードルを感じた'],
+   good:['現地学生・教授との毎日の密な交流','英語ネイティブ環境での実践的語学習得','全体・学習ともに満点（5.00）'],
+   adv:['完璧な英語でなくても積極的に会話参加する姿勢が最重要','金大経由でしか持てないネットワークを最大限活用']},
+  {k:'フィンランド春',fn:'フィンランド・ユネスコ',       s:'春',n:16, ov:4.75,lv:4.88,sv:4.31, od:{'大変満足':12,'満足':4},        ld:{'大変満足':14,'満足':2},               sd:{'大変満足':7,'満足':7,'普通':2},
+   imp:['事前準備の連絡が遅く費用明細が前日着','ホテル・交通の個人手配が初海外者には負担','英語のみの講義に語学力不足者が対応できない','日程情報の周知が遅く不透明'],
+   good:['教育・ジェンダー・環境など専門的レクチャーが充実','フィールドワーク・シナモンロール作りなど体験型活動','現地学生交流会・企業訪問も充実','回答者数16名と最多'],
+   adv:['語学力より気持ち・パッションが最重要','事前情報収集と物怖じせず質問する姿勢','早め早めの準備と行動']},
+  {k:'ドイツ',    fn:'ドイツ・ユネスコ',               s:'春',n:2,  ov:4.50,lv:5.00,sv:4.50, od:{'大変満足':1,'満足':1},         ld:{'大変満足':2},                         sd:{'大変満足':1,'満足':1},
+   imp:['現地で必要な現金額の早期案内が必要','想定より費用がかかった'],
+   good:['自然保護区での実地学習（農業体験等）が印象的','現地学生の帯同で日常的疑問も解消','学習満足度が5.00と最高評価'],
+   adv:['専門分野外なら事前に英語環境単語を準備','荷物は最小限にしてお土産スペースを確保','複数人で協力して宿を確保すると費用節約']},
+  {k:'NZ春',      fn:'FS in NZ（春）',                s:'春',n:3,  ov:4.67,lv:3.33,sv:4.67, od:{'大変満足':2,'満足':1},         ld:{'普通':2,'満足':1},                    sd:{'大変満足':2,'満足':1},
+   imp:['日本人が多く英語漬け環境にならなかった（複数）','授業が日本でもできる内容でNZらしさが不足'],
+   good:['金沢大学・現地のサポートは充実','ホームステイがリスニング・スピーキング向上に効果的'],
+   adv:['現地の人に積極的に話しかける勇気を持って参加すること','日本人に頼らず現地環境に飛び込む姿勢が重要']},
+  {k:'台湾春',    fn:'多文化協働PBL in 台湾（NTNU）',  s:'春',n:1,  ov:4.00,lv:5.00,sv:5.00, od:{'満足':1},                     ld:{'大変満足':1},                         sd:{'大変満足':1},
+   imp:['回答者1名のためデータとして限定的'],
+   good:['学習・サポートともに最高評価（5.00）','語学力・異文化理解・コミュニケーション能力が向上'],
+   adv:['回答者1名のため次年度のデータ蓄積が必要']},
+];
+
+const su=[
+  {k:'トルコ',    fn:'トルコ文化交流',                 s:'夏',n:28, ov:4.36,lv:4.57,sv:3.25, od:{'大変満足':12,'満足':15,'やや不満':1}, ld:{'大変満足':17,'満足':10,'普通':1},  sd:{'大変満足':6,'満足':6,'普通':7,'やや不満':7,'不満':2},
+   imp:['対面事前研修の欠如（複数・最多指摘）','30名という大人数の運営限界','現地スケジュール未共有問題','体調不良者続出・救急セット不備'],
+   good:['トルコ人のフレンドリーさ・歓迎ムード','歴史遺跡・自然・ユネスコ地域の体験','個人旅行では行けない場所への訪問'],
+   adv:['予定は誰も知らないことを覚悟して臨機応変に','常備薬・体温計・保湿グッズは必携','トルコ語を少し準備すると交流が深まる']},
+  {k:'ハサヌディン',fn:'ハサヌディン大学（インドネシア）',s:'夏',n:7,  ov:4.71,lv:4.57,sv:3.57, od:{'大変満足':5,'満足':2},          ld:{'大変満足':4,'満足':3},                sd:{'大変満足':2,'満足':2,'普通':1,'やや不満':2},
+   imp:['申込後のプログラム内容・日程変更','大学間事前調整の不足','深夜の乗り継ぎ・空港待機が体力的に負担'],
+   good:['現地学生・他国留学生との密な交流','日本との時差1時間で体調面の安心感','インドネシア語を現地学生が英語訳してくれた'],
+   adv:['完璧な英語より「中学英語で質問するマインド」が重要','水に流せるティッシュ・市販薬は必携','自主性・積極性が参加の質を大きく左右']},
+  {k:'タイ',      fn:'FS in タイ',                    s:'夏',n:9,  ov:5.00,lv:5.00,sv:4.11, od:{'大変満足':9},                  ld:{'大変満足':9},                         sd:{'大変満足':4,'満足':3,'普通':1,'やや不満':1},
+   imp:['事前研修での生活情報（コインランドリー等）が不足','奨学金手続きが複雑','体調不良者対策の強化が必要'],
+   good:['全体・学習ともに満点（5.00）と全プログラム最高評価','現地バディによるサポートが特に好評','ゲームを交えた実践的英語授業が高評価'],
+   adv:['風邪薬・体温計・上着（冷房対策）は必携','英語力より積極性が大切','クレジットカードの準備と決済文化の事前確認']},
+  {k:'フィンランド夏',fn:'フィンランドエコパーク',       s:'夏',n:5,  ov:4.00,lv:4.20,sv:3.00, od:{'大変満足':1,'満足':3,'普通':1},  ld:{'大変満足':2,'満足':2,'普通':1},       sd:{'普通':3,'満足':1,'やや不満':1},
+   imp:['事前の詳細情報（日程・費用・持ち物）が不足（全員共通）','自然体験多めというプログラム性格の説明不足','料金の個別払いが煩雑'],
+   good:['現地コーディネーター家族との夕食など深い交流','シーカヤック・キャンプ・海洋調査など唯一無二の体験','フィンランドの湖・星空など北欧の自然環境'],
+   adv:['夏でも防寒着は必須（天気による急変あり）','物価が非常に高いため予算を多めに','大自然の中でゆっくりしたい人に特におすすめ']},
+  {k:'英語研修',  fn:'英語研修4カ国（豪・加・馬・英）', s:'夏',n:19, ov:4.63,lv:4.37,sv:4.16, od:{'大変満足':12,'満足':7},         ld:{'大変満足':9,'満足':8,'普通':2},       sd:{'大変満足':9,'満足':5,'普通':4,'やや不満':1},
+   imp:['日本人クラスで英語環境が限定的（豪・加）','費用が高額（100万円超）・奨学金なし','ホストファミリー情報が実際と異なる','現地到着時に初めて知る情報が多い'],
+   good:['実践的なインフォーマル英語を習得できる','現地スタッフ・旅行会社のサポートが手厚い','各地域の治安の良さとフレンドリーな人々'],
+   adv:['事前の英語学習への投資が帰国後の達成感に直結','現地の文化・宗教・観光地を事前に調べる','ロンドンはスリに注意・一人行動を避けること']},
+  {k:'台湾FS',    fn:'FS in 台湾（NYCU）',             s:'夏',n:10, ov:4.80,lv:4.60,sv:4.10, od:{'大変満足':8,'満足':2},          ld:{'大変満足':7,'満足':2,'どちらとも言えない':1}, sd:{},
+   twDetail:{'事前研修':3.90,'引率':4.80,'事務':3.60,'ホテル':3.60,'現地大学':4.80},
+   imp:['奨学金関連の案内・手続きが複雑（複数）','大学事務からのメール返信が遅い','ホテルの設備老朽化（水漏れ・洗濯機故障）','現地学生との会話が日本語中心になりがち'],
+   good:['陽明交通大学「たけのこ」による案内・サポートが特に好評','引率（山本先生）への強い信頼感','Python・企業訪問など理工系にも対応したカリキュラム','複数大学学生との濃密な交流（人生の財産）'],
+   adv:['簡単な中国語を事前に学んでおくと強みになる','現金主流文化なので多めに準備','理工系学生に特におすすめ（Python・企業訪問あり）','迷ったら飛び込んでみること・初海外に最適']},
+];
+
+const allProgs = [...sp, ...su];
+
+/* ─── INIT ─── */
+let dashInited = false;
+function init(){
+  if(dashInited) return; dashInited = true;
+
+  const sc = v => v>=4.7?'#1A9467':v>=4.0?'#378ADD':v>=3.3?'#C07010':'#D94040';
+
+  function barRows(el, progs){
+    progs.forEach(p=>{
+      const d = document.createElement('div'); d.className='pb';
+      const badge = p.s==='春'?'sp':'su';
+      d.innerHTML=`<div class="pb-hdr"><span class="pn">${p.fn}</span><span class="pbadge ${badge}">${p.s}</span></div>`;
+      [['全体',p.ov],['学習',p.lv],['サポート',p.sv]].forEach(([l,v])=>{
+        if(!v) return;
+        const pct=Math.round((v/5)*100), c=sc(v);
+        const r=document.createElement('div'); r.className='sr';
+        r.innerHTML=`<span class="sl">${l}</span><div class="bt"><div class="bf" style="width:${pct}%;background:${c}"></div></div><span class="sn" style="color:${c}">${v.toFixed(2)}</span>`;
+        d.appendChild(r);
+      });
+      el.appendChild(d);
+    });
+  }
+
+  barRows(document.getElementById('sp-bars'), sp);
+  barRows(document.getElementById('su-bars'), su);
+  barRows(document.getElementById('sp-detail-bars'), sp);
+  barRows(document.getElementById('su-detail-bars'), su);
+
+  // Resp bars spring
+  const re = document.getElementById('sp-resp');
+  const rdata=[['UPM',9,9],['釜山',14,14],['フランス',5,5],['米国',2,3],['芬ユネスコ',16,16],['ドイツ',2,3],['NZ春',3,10],['台湾春',1,1]];
+  rdata.forEach(([nm,n,tot])=>{
+    const r=document.createElement('div'); r.style.cssText='display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)';
+    const pct=Math.round(n/tot*100);
+    r.innerHTML=`<span style="font-size:12px;flex:0 0 82px;color:var(--text)">${nm}</span><div class="bt" style="flex:1"><div class="bf" style="width:${pct}%;background:#378ADD"></div></div><span style="font-size:11px;color:var(--text-3);font-family:var(--mono);min-width:52px;text-align:right">${n}/${tot}名 (${pct}%)</span>`;
+    re.appendChild(r);
+  });
+
+  // Taiwan detail bars
+  const twd = document.getElementById('tw-detail-bars');
+  [['事前研修',3.90,'#C07010'],['引率（山本先生）',4.80,'#1A9467'],['大学事務',3.60,'#378ADD'],['ホテル ※参考',3.60,'#9A9894'],['現地大学（たけのこ） ※参考',4.80,'#1A9467']].forEach(([l,v,c])=>{
+    const pct=Math.round((v/5)*100);
+    const r=document.createElement('div'); r.className='sr'; r.style.marginBottom='5px';
+    r.innerHTML=`<span class="sl" style="flex:0 0 160px;font-size:11px">${l}</span><div class="bt"><div class="bf" style="width:${pct}%;background:${c}"></div></div><span class="sn" style="color:${c}">${v.toFixed(2)}</span>`;
+    twd.appendChild(r);
+  });
+
+  /* ─── CHARTS ─── */
+  // Radar
+  new Chart(document.getElementById('radarChart'),{
+    type:'radar',
+    data:{
+      labels:['全体満足度','学習満足度','サポート満足度'],
+      datasets:[
+        {label:'UPM',data:[4.44,4.56,4.33],borderColor:'#378ADD',backgroundColor:'rgba(55,138,221,.08)',pointRadius:3},
+        {label:'釜山',data:[4.57,4.57,4.79],borderColor:'#1A9467',backgroundColor:'rgba(26,148,103,.08)',pointRadius:3},
+        {label:'フィンランド春',data:[4.75,4.88,4.31],borderColor:'#9944CC',backgroundColor:'rgba(153,68,204,.08)',pointRadius:3},
+        {label:'タイ',data:[5.00,5.00,4.11],borderColor:'#C07010',backgroundColor:'rgba(192,112,16,.08)',pointRadius:3},
+        {label:'台湾FS',data:[4.80,4.60,4.10],borderColor:'#1A8090',backgroundColor:'rgba(26,128,144,.08)',pointRadius:3},
+        {label:'英語研修',data:[4.63,4.37,4.16],borderColor:'#D94040',backgroundColor:'rgba(217,64,64,.08)',pointRadius:3},
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12,padding:8}}},
+      scales:{r:{min:2.5,max:5.1,ticks:{stepSize:0.5,font:{size:9},color:'#9A9894'},grid:{color:'rgba(0,0,0,0.08)'},pointLabels:{font:{size:11}}}}}
+  });
+
+  // Scatter
+  new Chart(document.getElementById('scatterChart'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'春',data:sp.map(p=>({x:p.ov,y:p.sv,label:p.fn})),backgroundColor:'rgba(55,138,221,.6)',pointRadius:7,pointStyle:'circle'},
+      {label:'夏',data:su.map(p=>({x:p.ov,y:p.sv,label:p.fn})),backgroundColor:'rgba(192,112,16,.6)',pointRadius:7,pointStyle:'rect'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.label+` (全:${c.parsed.x} サポ:${c.parsed.y})`,title:()=>''}}},
+      scales:{
+        x:{min:3.5,max:5.3,title:{display:true,text:'全体満足度',font:{size:10},color:'#9A9894'},ticks:{font:{size:10},color:'#9A9894'},grid:{color:'rgba(0,0,0,0.06)'}},
+        y:{min:2.5,max:5.3,title:{display:true,text:'サポート満足度',font:{size:10},color:'#9A9894'},ticks:{font:{size:10},color:'#9A9894'},grid:{color:'rgba(0,0,0,0.06)'}},
+      }}
+  });
+
+  // Spring dist chart
+  const sdColors={'大変満足':'#1A9467','満足':'#378ADD','普通':'#9A9894','やや不満':'#C07010','不満':'#D94040'};
+  const spDistAgg={'大変満足':0,'満足':0,'普通':0,'やや不満':0,'不満':0};
+  sp.forEach(p=>Object.entries(p.od).forEach(([k,v])=>{if(spDistAgg[k]!==undefined)spDistAgg[k]+=v}));
+  new Chart(document.getElementById('spDistChart'),{
+    type:'bar',data:{labels:sp.map(p=>p.k),
+      datasets:Object.entries(sdColors).map(([l,c])=>({label:l,data:sp.map(p=>p.od[l]||0),backgroundColor:c,borderRadius:2,borderSkipped:false}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}},
+      scales:{x:{stacked:true,ticks:{font:{size:10}}},y:{stacked:true,ticks:{stepSize:2,font:{size:10}}}}}
+  });
+
+  // Summer dist
+  const suDistAgg={'大変満足':0,'満足':0,'普通':0,'やや不満':0,'不満':0};
+  su.forEach(p=>Object.entries(p.od).forEach(([k,v])=>{if(suDistAgg[k]!==undefined)suDistAgg[k]+=v}));
+  new Chart(document.getElementById('suDistChart'),{
+    type:'bar',data:{labels:su.map(p=>p.k),
+      datasets:Object.entries(sdColors).map(([l,c])=>({label:l,data:su.map(p=>p.od[l]||0),backgroundColor:c,borderRadius:2,borderSkipped:false}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:6}}},
+      scales:{x:{stacked:true,ticks:{font:{size:10}}},y:{stacked:true,ticks:{stepSize:4,font:{size:10}}}}}
+  });
+
+  // Spring reason chart
+  new Chart(document.getElementById('spReasonChart'),{
+    type:'bar',
+    data:{labels:['プログラム内容','国・場所への興味','費用','単位取得','金大サポート','開催時期'],
+      datasets:[{data:[32,28,24,22,18,16],backgroundColor:['#378ADD','#1A9467','#C07010','#9944CC','#D94040','#1A8090'],borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10}}},y:{ticks:{font:{size:10}},grid:{display:false}}}}
+  });
+
+  // Spring outcome chart
+  new Chart(document.getElementById('spOutcomeChart'),{
+    type:'bar',
+    data:{labels:['異文化理解','視野の拡大','語学力','多様な価値観','コミュ能力','主体性','問題解決力'],
+      datasets:[{data:[38,35,32,36,28,22,14],backgroundColor:['#378ADD','#1A9467','#C07010','#9944CC','#D94040','#1A8090','#888'],borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`約${c.parsed.x}名`}}},
+      scales:{x:{min:0,max:42,grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10}}},y:{ticks:{font:{size:10}},grid:{display:false}}}}
+  });
+
+  // Keyword freq chart
+  new Chart(document.getElementById('wordChart'),{
+    type:'bar',
+    data:{labels:['交流・つながり','サポート充実','事前研修不足','スケジュール不透明','費用・コスパ','語学力向上','初海外に最適','視野が広がった'],
+      datasets:[{data:[89,76,54,42,38,62,41,71],backgroundColor:'#378ADD',borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.x}件`}}},
+      scales:{x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10}}},y:{ticks:{font:{size:10}},grid:{display:false}}}}
+  });
+
+  /* ─── PROGRAM DETAIL SELECTOR ─── */
+  const sel = document.getElementById('prog-sel');
+  const det = document.getElementById('prog-details');
+  allProgs.forEach(p=>{
+    const btn = document.createElement('button');
+    btn.className = 'ps-btn' + (p.s==='夏'?' su-btn':'');
+    btn.textContent = p.fn + '（' + p.s + '）';
+    btn.onclick = ()=>{
+      document.querySelectorAll('.ps-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      renderDetail(p);
+    };
+    sel.appendChild(btn);
+  });
+
+  function renderDetail(p){
+    const c = sc(p.ov);
+    det.innerHTML = `
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap">
+        <div style="font-size:16px;font-weight:500">${p.fn}</div>
+        <span class="badge ${p.s==='春'?'sp':'su'}">${p.s}</span>
+        <span style="font-size:12px;color:var(--text-3);font-family:var(--mono)">回答者 ${p.n}名</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem">
+        ${[['全体満足度',p.ov],['学習満足度',p.lv],['サポート満足度',p.sv]].map(([l,v])=>{
+          const c2=sc(v||0);
+          return `<div style="background:var(--surface2);border-radius:var(--rs);padding:.75rem 1rem">
+            <div style="font-size:10px;color:var(--text-3);font-family:var(--mono);margin-bottom:4px">${l}</div>
+            <div style="font-size:22px;font-weight:700;color:${c2}">${v?v.toFixed(2):'—'}</div>
+            <div style="font-size:9px;color:var(--text-3);font-family:var(--mono)">/5.00</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="g2" style="gap:12px">
+        <div>
+          <div class="sec-h" style="margin-top:0;font-size:13px">✅ 高評価・良かった点</div>
+          ${p.good.map(t=>`<div class="qbox green" style="margin:5px 0">・${t}</div>`).join('')}
+        </div>
+        <div>
+          <div class="sec-h" style="margin-top:0;font-size:13px">⚠️ 改善が求められた点</div>
+          ${p.imp.map(t=>`<div class="qbox amber" style="margin:5px 0">・${t}</div>`).join('')}
+        </div>
+      </div>
+      <div class="sec-h" style="font-size:13px">💬 後輩へのアドバイス（学生の声）</div>
+      ${p.adv.map(t=>`<div class="qbox" style="margin:5px 0">・${t}</div>`).join('')}
+    </div>`;
+  }
+  // Auto-select first
+  document.querySelector('.ps-btn').click();
+}
+
+/* ─── TAB SWITCH ─── */
+function tab(id){
+  ['overview','spring','summer','qualitative','issues'].forEach(t=>{
+    document.getElementById('t-'+t).style.display=t===id?'':'none';
+  });
+  document.querySelectorAll('.tab').forEach((b,i)=>{
+    b.classList.toggle('on',['overview','spring','summer','qualitative','issues'][i]===id);
+  });
+}
+
+if(sessionStorage.getItem('a')==='1') init();
+</script>
+</body>
+</html>
